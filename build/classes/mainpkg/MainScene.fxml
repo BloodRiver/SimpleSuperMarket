@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="749.0" prefWidth="958.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainpkg.MainSceneController">
+   <children>
+      <Button layoutX="568.0" layoutY="681.0" mnemonicParsing="false" onAction="#goToCheckoutButtonOnClick" text="Go To Checkout" />
+      <TableView fx:id="productsTableView" layoutX="34.0" layoutY="222.0" prefHeight="433.0" prefWidth="883.0">
+        <columns>
+          <TableColumn fx:id="productNameTableColumn" onEditCommit="#productNameTableColumnOnEditCommit" prefWidth="362.0" text="Product Name" />
+          <TableColumn fx:id="unitPriceTableColumn" onEditCommit="#unitPriceTableColumnOnEditCommit" prefWidth="138.0" text="Unit Price" />
+            <TableColumn fx:id="preDefinedVatTableColumn" onEditCommit="#preDefinedVatTableColumnOnEditCommit" prefWidth="177.0" text="Pre-defined Vat Rate" />
+            <TableColumn fx:id="numItemsInStockTableColumn" onEditCommit="#numItemsInStockTableColumnOnEditCommit" prefWidth="205.0" text="Number of Items in Stock" />
+        </columns>
+      </TableView>
+      <Label layoutX="300.0" layoutY="30.0" text="Add New Product">
+         <font>
+            <Font name="Britannic Bold" size="48.0" />
+         </font>
+      </Label>
+      <Label layoutX="39.0" layoutY="136.0" text="Product Name:" />
+      <TextField fx:id="productNameTextField" layoutX="154.0" layoutY="131.0" />
+      <TextField fx:id="unitPriceTextField" layoutX="154.0" layoutY="175.0" />
+      <TextField fx:id="preDefinedVatTextField" layoutX="568.0" layoutY="131.0" />
+      <TextField fx:id="numItemsInStockTextField" layoutX="568.0" layoutY="175.0" />
+      <Label layoutX="71.0" layoutY="180.0" text="Unit Price:" />
+      <Label layoutX="400.0" layoutY="136.0" text="Pre-defined Vat Rate: " />
+      <Label layoutX="373.0" layoutY="180.0" text="Number of items in Stock:" />
+      <Button layoutX="775.0" layoutY="126.0" mnemonicParsing="false" onAction="#addButtonOnClick" prefHeight="86.0" prefWidth="145.0" text="Add Product To Database" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
+      <Label fx:id="usernameDisplayLabel" layoutX="39.0" layoutY="20.0" text="User: " />
+      <Button layoutX="214.0" layoutY="681.0" mnemonicParsing="false" onAction="#logoutButtonOnClick" text="Logout" />
+   </children>
+</AnchorPane>
