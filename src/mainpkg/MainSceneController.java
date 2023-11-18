@@ -90,13 +90,12 @@ public class MainSceneController implements Initializable, SceneTools {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(MainSceneController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        username = MainApplication.loggedInUser.getUsername();
     }    
 
     @FXML
     private void goToCheckoutButtonOnClick(ActionEvent event) throws IOException {        
-        HashMap<Object, Object> sceneData = new HashMap<>();
-        sceneData.put("username", username);
-        switchScene(event, getClass().getResource("CheckoutScene.fxml"), "Add Products to Cart and Checkout", sceneData);
+        switchScene(event, getClass().getResource("CheckoutScene.fxml"), "Add Products to Cart and Checkout");
     }
 
     @FXML
@@ -277,9 +276,6 @@ public class MainSceneController implements Initializable, SceneTools {
     @Override
     public void initializeScene(HashMap<Object, Object> sceneData)
     {
-        username = (String) sceneData.get("username");
-        
-        usernameDisplayLabel.setText("User: " + username);
     }
     
 }

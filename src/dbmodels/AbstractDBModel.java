@@ -155,5 +155,5 @@ public abstract class AbstractDBModel implements Serializable {
     
     public abstract void update() throws IOException, FileNotFoundException, ClassNotFoundException;
     
-    protected abstract boolean isEqual(AbstractDBModel otherObject);
+    protected abstract boolean isEqual(Object otherObject);
 }

@@ -6,6 +6,7 @@ package mainpkg;
 
 import dbmodels.users.AbstractBaseUser;
 import dbmodels.users.Manager;
+import dbmodels.users.POSStaff;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -14,8 +15,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import dbmodels.users.SystemAdmin;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Optional;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import utilityclasses.DialogBoxTools;
 import utilityclasses.SceneTools;
 
 /**
@@ -23,7 +29,7 @@ import utilityclasses.SceneTools;
  *
  * @author Sajeed Ahmed Galib Arnob
  */
-public class LoginSceneController implements Initializable, SceneTools {
+public class LoginSceneController implements Initializable, SceneTools, DialogBoxTools {
 
     @FXML
     private TextField usernameTextField;
@@ -35,20 +41,19 @@ public class LoginSceneController implements Initializable, SceneTools {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        MainApplication.loggedInUser = null;
     }    
 
     @FXML
-    private void loginButtonOnClick(ActionEvent event) throws IOException {
+    private void loginButtonOnClick(ActionEvent event) throws IOException, FileNotFoundException, ClassNotFoundException {
         AbstractBaseUser user;
         if (usernameTextField.getText().equals(SystemAdmin.USERNAME))
         {
             user = new SystemAdmin();
         }
-        else if (true)
+        else if ((user = AbstractBaseUser.loadUserByName(usernameTextField.getText())) != null)
         {
-            user = new Manager();
-            
+            // do nothing            
         }
         else
         {
@@ -58,10 +63,36 @@ public class LoginSceneController implements Initializable, SceneTools {
         
         if (MainApplication.logIn(user, passwordPasswordField.getText()))
         {
-            HashMap<Object, Object> sceneData = new HashMap<>();
-            sceneData.put("username", user.getUsername());
+            if (user instanceof SystemAdmin)
+            {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Scene Choice");
+                alert.setHeaderText("Where to go?");
+                alert.setContentText("Would you like to go to Add User Scene or Add Product Scene");
 
-            switchScene(event, getClass().getResource("MainScene.fxml"), "Add Products to database", sceneData);
+                ButtonType buttonType1 = new ButtonType("Add User Scene");
+                ButtonType buttonType2 = new ButtonType("Add Product Scene");
+
+                alert.getButtonTypes().setAll(buttonType1, buttonType2);
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == buttonType1)
+                {
+                    switchScene(event, getClass().getResource("SystemAdminCreateUserScene.fxml"), "Add Products to database");
+                }
+                else
+                {
+                    switchScene(event, getClass().getResource("MainScene.fxml"), "Add Products to database");
+                }
+            }
+            else if (user instanceof Manager)
+            {
+                switchScene(event, getClass().getResource("MainScene.fxml"), "Add Products to database");
+            }
+            else if (user instanceof POSStaff)
+            {
+                switchScene(event, getClass().getResource("CheckoutScene.fxml"), "Add Products to Cart and Checkout");
+            }
         }
         else
         {

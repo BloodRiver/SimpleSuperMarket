@@ -7,14 +7,11 @@ package utilityclasses;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
-import javafx.application.Application;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 /**
@@ -49,19 +46,6 @@ public interface SceneTools {
         
         currentStage.setScene(newScene);
         currentStage.setTitle(windowTitle);
-    }
-    
-    default void showError(String message)
-    {
-        showError(message, "");
-    }
-    
-    default void showError(String message, String title)
-    {
-        Alert msgbox = new Alert(AlertType.ERROR);
-        msgbox.setContentText(message);
-        msgbox.setTitle(title);
-        msgbox.showAndWait();
     }
     
     public void initializeScene(HashMap<Object, Object> sceneData);

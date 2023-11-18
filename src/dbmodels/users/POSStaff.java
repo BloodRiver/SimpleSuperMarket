@@ -11,10 +11,10 @@ import java.io.Serializable;
  *
  * @author Sajeed Ahmed Galib Arnob
  */
-public class Manager extends AbstractBaseUser implements Serializable {
+public class POSStaff extends AbstractBaseUser implements Serializable {
 
-    public Manager(String username, String password) {
+    public POSStaff(String username, String password) {
         super(username, password);
     }
-    
+
 }

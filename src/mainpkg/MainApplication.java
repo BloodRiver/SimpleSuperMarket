@@ -5,6 +5,7 @@
 package mainpkg;
 
 import dbmodels.users.AbstractBaseUser;
+import dbmodels.users.Manager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -38,6 +39,8 @@ public class MainApplication extends Application {
     
     public static boolean logIn(AbstractBaseUser user, String password)
     {
+        System.out.println(user);
+        System.out.println("given password: " + password);
         if (user.checkPassword(password))
         {
             loggedInUser = user;

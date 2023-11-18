@@ -98,7 +98,8 @@ public class Product extends AbstractDBModel implements Serializable {
         this.numItemsInStock = numItemsInStock;
     }
     
-    protected boolean isEqual(AbstractDBModel otherObject)
+    @Override
+    protected boolean isEqual(Object otherObject)
     {
         Product otherProduct = (Product) otherObject;
         return this.getProductName().equals(otherProduct.getProductName());

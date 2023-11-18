@@ -7,7 +7,6 @@ package dbmodels.users;
 import dbmodels.AbstractDBModel;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  *
@@ -23,19 +22,20 @@ public final class SystemAdmin extends AbstractBaseUser {
         this.password = PASSWORD;
     }
     
-    @Override
-    public AbstractBaseUser loadUserByName(String username)
+    public SystemAdmin(String username, String password)
+    {
+        this.username = USERNAME;
+        this.password = PASSWORD;
+    }
+    
+    public static SystemAdmin loadUserByName(String username)
     {
         return new SystemAdmin();
     }
     
-    public static ArrayList<AbstractDBModel> loadAll() throws FileNotFoundException, IOException, ClassNotFoundException
+    public static void setPassword(AbstractBaseUser user, String password) throws IOException, FileNotFoundException, ClassNotFoundException
     {
-        return null;
-    }
-    
-    protected boolean isEqual(AbstractDBModel otherObject)
-    {
-        return this.equals(otherObject);
+        user.password = password;
+        user.update();
     }
 }

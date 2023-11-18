@@ -5,6 +5,7 @@
 package mainpkg;
 
 import dbmodels.Product;
+import dbmodels.users.POSStaff;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
@@ -16,6 +17,7 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -26,13 +28,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.IntegerStringConverter;
 import tablemodels.CartItem;
+import utilityclasses.DialogBoxTools;
 import utilityclasses.SceneTools;
 
 /**
  *
  * @author Sajeed Ahmed Galib Arnob - 2121104 - Sec 3
  */
-public class CheckoutSceneController implements Initializable, SceneTools {
+public class CheckoutSceneController implements Initializable, SceneTools, DialogBoxTools {
 
     @FXML
     private ComboBox<Product> selectProductComboBox;
@@ -72,6 +75,8 @@ public class CheckoutSceneController implements Initializable, SceneTools {
     
     @FXML
     private CheckBox selectAllCheckBox;
+    @FXML
+    private Button goBackButton;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -99,8 +104,11 @@ public class CheckoutSceneController implements Initializable, SceneTools {
         ArrayList<Product> allProducts;
         try {
             allProducts = Product.loadAll();
-            selectProductComboBox.getItems().addAll(allProducts);
-            selectProductComboBox.getSelectionModel().selectFirst();
+            if (allProducts != null)
+            {
+                selectProductComboBox.getItems().addAll(allProducts);
+                selectProductComboBox.getSelectionModel().selectFirst();
+            }
 
         } catch (IOException ex) {
             Logger.getLogger(CheckoutSceneController.class.getName()).log(Level.SEVERE, null, ex);
@@ -131,18 +139,37 @@ public class CheckoutSceneController implements Initializable, SceneTools {
         totalPriceWithVatTableColumn.setCellValueFactory(new PropertyValueFactory<>("totalPriceWithVat"));
         
         cartItemTable.setEditable(true);
+        
+        if (MainApplication.loggedInUser instanceof POSStaff)
+        {
+            goBackButton.setVisible(false);
+        }
+        
+        username = MainApplication.loggedInUser.getUsername();
     }
     
     private void updateProductInfo()
     {
-        unitPriceLabel.setText(Float.toString(selectProductComboBox.getSelectionModel().getSelectedItem().getUnitPrice()));
-        predefinedVatLabel.setText(Float.toString(selectProductComboBox.getSelectionModel().getSelectedItem().getPreDefinedVatRate()));
-        numItemsInStockLabel.setText(Integer.toString(selectProductComboBox.getSelectionModel().getSelectedItem().getNumItemsInStock()));
+        Product selectedProduct = selectProductComboBox.getSelectionModel().getSelectedItem();
+        
+        if (selectedProduct != null)
+        {
+            unitPriceLabel.setText(Float.toString(selectedProduct.getUnitPrice()));
+            predefinedVatLabel.setText(Float.toString(selectedProduct.getPreDefinedVatRate()));
+            numItemsInStockLabel.setText(Integer.toString(selectedProduct.getNumItemsInStock()));
+        }
     }
 
     @FXML
     private void addProductToCartButtonOnClick(ActionEvent event) {
         Product selectedProduct = selectProductComboBox.getSelectionModel().getSelectedItem();
+        
+        if (selectedProduct == null)
+        {
+            showError("Please select a product");
+            return;
+        }
+        
         int quantity = quantityComboBox.getSelectionModel().getSelectedItem();
         
         float totalAmount = 0.0f;
@@ -205,16 +232,12 @@ public class CheckoutSceneController implements Initializable, SceneTools {
 
     @FXML
     private void goBackButtonOnClick(ActionEvent event) throws IOException {
-        HashMap<Object, Object> sceneData = new HashMap<>();
-        sceneData.put("username", username);
-        switchScene(event, getClass().getResource("MainScene.fxml"), "Add Products to Database", sceneData);
+        switchScene(event, getClass().getResource("MainScene.fxml"), "Add Products to Database");
     }
     
     @Override
     public void initializeScene(HashMap<Object, Object> sceneData)
     {
-        username = (String) sceneData.get("username");
-        usernameDisplayLabel.setText(username);
     }
 
     @FXML
@@ -263,6 +286,11 @@ public class CheckoutSceneController implements Initializable, SceneTools {
 
         selectAllCheckBox.setSelected(false);
         cartItemTable.refresh();
+    }
+
+    @FXML
+    private void logoutButtonOnClick(ActionEvent event) throws IOException {
+        switchScene(event, getClass().getResource("LoginScene.fxml"));
     }
     
 }

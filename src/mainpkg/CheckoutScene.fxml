@@ -12,6 +12,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="749.0" prefWidth="958.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainpkg.CheckoutSceneController">
    <children>
+      <Button layoutX="859.0" layoutY="692.0" mnemonicParsing="false" onAction="#logoutButtonOnClick" text="Logout" />
       <Label layoutX="44.0" layoutY="94.0" text="Select Product: " />
       <Label layoutX="44.0" layoutY="149.0" prefHeight="21.0" prefWidth="119.0" text="Unit Price in BDT: " wrapText="true" />
       <Label layoutX="44.0" layoutY="200.0" text="Quantity?" />
@@ -52,13 +53,13 @@
                   <CheckBox fx:id="selectAllCheckBox" mnemonicParsing="false" onAction="#selectAllCheckBoxOnClick" />
                </graphic>
             </TableColumn>
-          <TableColumn fx:id="productNameTableColumn" prefWidth="341.0" text="Product Name" />
-          <TableColumn fx:id="unitPriceTableColumn" minWidth="0.0" prefWidth="96.0" text="Unit Price" />
-            <TableColumn fx:id="quantityTableColumn" minWidth="0.0" onEditCommit="#quantityTableColumnOnEditCommit" prefWidth="89.0" text="Quantity" />
-            <TableColumn fx:id="totalPriceTableColumn" prefWidth="84.0" text="Total Price" />
-            <TableColumn fx:id="vatTableColumn" prefWidth="53.0" text="Vat %" />
-            <TableColumn fx:id="vatAmountTableColumn" prefWidth="93.0" text="Vat Amount" />
-            <TableColumn fx:id="totalPriceWithVatTableColumn" prefWidth="149.0" text="Total Price with Vat" />
+          <TableColumn fx:id="productNameTableColumn" prefWidth="282.0" text="Product Name" />
+          <TableColumn fx:id="unitPriceTableColumn" minWidth="0.0" prefWidth="83.0" text="Unit Price" />
+            <TableColumn fx:id="quantityTableColumn" minWidth="0.0" onEditCommit="#quantityTableColumnOnEditCommit" prefWidth="79.0" text="Quantity" />
+            <TableColumn fx:id="totalPriceTableColumn" prefWidth="88.0" text="Total Price" />
+            <TableColumn fx:id="vatTableColumn" prefWidth="66.0" text="Vat %" />
+            <TableColumn fx:id="vatAmountTableColumn" minWidth="4.0" prefWidth="95.0" text="Vat Amount" />
+            <TableColumn fx:id="totalPriceWithVatTableColumn" prefWidth="158.0" text="Total Price with Vat" />
         </columns>
       </TableView>
       <Label fx:id="totalAmountOutputLabel" layoutX="36.0" layoutY="662.0" text="Total Amount with Vat of all products:">
@@ -66,7 +67,7 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Button layoutX="853.0" layoutY="692.0" mnemonicParsing="false" onAction="#goBackButtonOnClick" text="Go Back" />
+      <Button fx:id="goBackButton" layoutX="763.0" layoutY="692.0" mnemonicParsing="false" onAction="#goBackButtonOnClick" text="Go Back" />
       <Label layoutX="371.0" layoutY="94.0" prefHeight="21.0" prefWidth="178.0" text="Number of Items in Stock:" wrapText="true" />
       <Box depth="100" drawMode="LINE" height="30.0" layoutX="646.0" layoutY="105.0" width="190.0" />
       <Label fx:id="numItemsInStockLabel" layoutX="557.0" layoutY="95.0" prefHeight="20.0" prefWidth="178.0">

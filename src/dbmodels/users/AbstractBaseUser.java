@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *
@@ -20,6 +21,17 @@ import java.io.Serializable;
 public abstract class AbstractBaseUser extends AbstractDBModel implements Serializable {
     protected String username;
     protected String password;
+    
+    public AbstractBaseUser()
+    {
+        
+    }
+    
+    public AbstractBaseUser(String username, String password)
+    {
+        this.username = username;
+        this.password = password;
+    }
     
     public String getUsername()
     {
@@ -31,7 +43,7 @@ public abstract class AbstractBaseUser extends AbstractDBModel implements Serial
         return this.password.equals(password);
     }
     
-    public AbstractBaseUser loadUserByName(String username) throws FileNotFoundException, IOException, ClassNotFoundException
+    public static AbstractBaseUser loadUserByName(String username) throws FileNotFoundException, IOException, ClassNotFoundException
     {
         File myFile = new File("databases");
         
@@ -75,6 +87,32 @@ public abstract class AbstractBaseUser extends AbstractDBModel implements Serial
         return null;
     }
     
+    public static ArrayList<AbstractBaseUser> loadAll() throws IOException, FileNotFoundException, ClassNotFoundException
+    {
+        ArrayList<AbstractDBModel> allItems = loadAllFromFile("User.bin");
+        
+        if (allItems == null)
+        {
+            return null;
+        }
+        
+        ArrayList<AbstractBaseUser> allUsers = new ArrayList<>();
+        
+        for (AbstractDBModel eachItem: allItems)
+        {
+            allUsers.add((AbstractBaseUser) eachItem);
+        }
+        
+        return allUsers;
+    }
+    
+    @Override
+    public final boolean isEqual(Object otherObject)
+    {
+        AbstractBaseUser otherUser = (AbstractBaseUser) otherObject;
+        return this.getUsername().equals(otherUser.getUsername());
+    }
+    
     @Override
     public final void save() throws IOException, FileNotFoundException
     {
@@ -91,5 +129,11 @@ public abstract class AbstractBaseUser extends AbstractDBModel implements Serial
     public final void delete() throws IOException, FileNotFoundException, ClassNotFoundException
     {
         this.deleteFromFile("User.bin");
+    }
+    
+    @Override
+    public String toString()
+    {
+        return this.getClass().getSimpleName() + "{username: " + this.username + ", " + "password: " + this.password;
     }
 }
