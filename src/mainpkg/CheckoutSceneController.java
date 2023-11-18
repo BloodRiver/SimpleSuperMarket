@@ -68,8 +68,7 @@ public class CheckoutSceneController implements Initializable, SceneTools, Dialo
     private Label numItemsInStockLabel;
     @FXML
     private Label usernameDisplayLabel;
-    
-    private String username;
+
     @FXML
     private TableColumn<CartItem, Boolean> selectAllCheckBoxTableColumn;
     
@@ -145,7 +144,7 @@ public class CheckoutSceneController implements Initializable, SceneTools, Dialo
             goBackButton.setVisible(false);
         }
         
-        username = MainApplication.loggedInUser.getUsername();
+        usernameDisplayLabel.setText(MainApplication.loggedInUser.getUsername());
     }
     
     private void updateProductInfo()
@@ -220,14 +219,17 @@ public class CheckoutSceneController implements Initializable, SceneTools, Dialo
 
     @FXML
     private void checkOutButtonOnClick(ActionEvent event) throws IOException, FileNotFoundException, ClassNotFoundException {
-        for (CartItem eachCartItem: cartItemTable.getItems())
+        if (askYesNo("Are you sure you want to proceed with checkout?") == true)
         {
-            eachCartItem.updateProduct();
+            for (CartItem eachCartItem: cartItemTable.getItems())
+            {
+                eachCartItem.updateProduct();
+            }
+
+            updateProductInfo();
+
+            cartItemTable.getItems().clear();
         }
-        
-        updateProductInfo();
-        
-        cartItemTable.getItems().clear();
     }
 
     @FXML
@@ -270,22 +272,25 @@ public class CheckoutSceneController implements Initializable, SceneTools, Dialo
 
     @FXML
     private void removeSelectedButtonOnClick(ActionEvent event) {
-        int i = 0;
-        
-        while (i < cartItemTable.getItems().size())
+        if (askYesNo("Are you sure you want to delete the selected products from cart?"))
         {
-            if (cartItemTable.getItems().get(i).isSelected())
-            {
-                cartItemTable.getItems().remove(i);
-            }
-            else
-            {
-                i++;
-            }
-        }
+            int i = 0;
 
-        selectAllCheckBox.setSelected(false);
-        cartItemTable.refresh();
+            while (i < cartItemTable.getItems().size())
+            {
+                if (cartItemTable.getItems().get(i).isSelected())
+                {
+                    cartItemTable.getItems().remove(i);
+                }
+                else
+                {
+                    i++;
+                }
+            }
+
+            selectAllCheckBox.setSelected(false);
+            cartItemTable.refresh();
+        }
     }
 
     @FXML

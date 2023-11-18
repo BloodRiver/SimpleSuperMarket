@@ -47,9 +47,9 @@ public interface DialogBoxTools {
         msgbox.showAndWait();
     }
     
-    default boolean askYesNo(String title)
+    default boolean askYesNo(String message)
     {
-        return askYesNo(title, "", "");
+        return askYesNo("", "", message);
     }
     
     default boolean askYesNo(String title, String headerText, String contentText)

@@ -5,6 +5,8 @@
 package dbmodels.users;
 
 import dbmodels.AbstractDBModel;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -13,7 +15,7 @@ import java.io.Serializable;
  */
 public class Manager extends AbstractBaseUser implements Serializable {
 
-    public Manager(String username, String password) {
+    public Manager(String username, String password) throws IOException, FileNotFoundException, ClassNotFoundException {
         super(username, password);
     }
     

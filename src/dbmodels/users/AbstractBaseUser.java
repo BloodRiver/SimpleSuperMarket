@@ -22,13 +22,14 @@ public abstract class AbstractBaseUser extends AbstractDBModel implements Serial
     protected String username;
     protected String password;
     
-    public AbstractBaseUser()
+    public AbstractBaseUser() throws IOException, FileNotFoundException, ClassNotFoundException
     {
-        
+        super();
     }
     
-    public AbstractBaseUser(String username, String password)
+    public AbstractBaseUser(String username, String password) throws IOException, FileNotFoundException, ClassNotFoundException
     {
+        super();
         this.username = username;
         this.password = password;
     }
@@ -36,6 +37,11 @@ public abstract class AbstractBaseUser extends AbstractDBModel implements Serial
     public String getUsername()
     {
         return this.username;
+    }
+    
+    public void setUsername(String username)
+    {
+        this.username = username;
     }
     
     public boolean checkPassword(String password)
@@ -107,13 +113,6 @@ public abstract class AbstractBaseUser extends AbstractDBModel implements Serial
     }
     
     @Override
-    public final boolean isEqual(Object otherObject)
-    {
-        AbstractBaseUser otherUser = (AbstractBaseUser) otherObject;
-        return this.getUsername().equals(otherUser.getUsername());
-    }
-    
-    @Override
     public final void save() throws IOException, FileNotFoundException
     {
         this.saveToFile("User.bin");
@@ -132,8 +131,8 @@ public abstract class AbstractBaseUser extends AbstractDBModel implements Serial
     }
     
     @Override
-    public String toString()
+    public int count() throws IOException, FileNotFoundException, ClassNotFoundException
     {
-        return this.getClass().getSimpleName() + "{username: " + this.username + ", " + "password: " + this.password;
+        return this.countFromFile("User.bin");
     }
 }

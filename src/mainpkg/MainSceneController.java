@@ -18,15 +18,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.FloatStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import tablemodels.ProductTableData;
+import utilityclasses.DialogBoxTools;
 import utilityclasses.SceneTools;
 
 /**
@@ -34,7 +37,7 @@ import utilityclasses.SceneTools;
  *
  * @author Sajeed Ahmed Galib Arnob
  */
-public class MainSceneController implements Initializable, SceneTools {
+public class MainSceneController implements Initializable, SceneTools, DialogBoxTools {
 
     @FXML
     private TableView<ProductTableData> productsTableView;
@@ -54,16 +57,26 @@ public class MainSceneController implements Initializable, SceneTools {
     private TextField preDefinedVatTextField;
     @FXML
     private TextField numItemsInStockTextField;
-    
-    private String username;
     @FXML
     private Label usernameDisplayLabel;
+    @FXML
+    private TableColumn<ProductTableData, Boolean> selectAllCheckBoxTableColumn;
+    @FXML
+    private CheckBox selectAllCheckBox;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        selectAllCheckBoxTableColumn.setCellValueFactory(new PropertyValueFactory<>("selected"));
+        selectAllCheckBoxTableColumn.setCellFactory(cell -> {
+            CheckBoxTableCell myCell = new CheckBoxTableCell<>();
+            
+            return myCell;
+        });
+        
+        
         productNameTableColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
         productNameTableColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         
@@ -90,7 +103,7 @@ public class MainSceneController implements Initializable, SceneTools {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(MainSceneController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        username = MainApplication.loggedInUser.getUsername();
+        usernameDisplayLabel.setText("user: " + MainApplication.loggedInUser.getUsername());
     }    
 
     @FXML
@@ -171,7 +184,7 @@ public class MainSceneController implements Initializable, SceneTools {
         }
     }
     
-    private Product getProductFromTextFields()
+    private Product getProductFromTextFields() throws IOException, FileNotFoundException, ClassNotFoundException
     {
         Alert msgbox = new Alert(AlertType.ERROR);
         
@@ -246,13 +259,13 @@ public class MainSceneController implements Initializable, SceneTools {
     }
 
     @FXML
-    private void addButtonOnClick(ActionEvent event) throws IOException {
+    private void addButtonOnClick(ActionEvent event) throws IOException, FileNotFoundException, ClassNotFoundException {
         
         Product newProduct = getProductFromTextFields();
-        ProductTableData newProductTableData = new ProductTableData(newProduct);
         
         if (newProduct != null)
         {
+            ProductTableData newProductTableData = new ProductTableData(newProduct);
             for (ProductTableData eachProduct: productsTableView.getItems())
             {
                 if (newProduct.getProductName().equals(eachProduct.getProductName()))
@@ -276,6 +289,39 @@ public class MainSceneController implements Initializable, SceneTools {
     @Override
     public void initializeScene(HashMap<Object, Object> sceneData)
     {
+    }
+
+    @FXML
+    private void selectAllCheckBoxOnClick(ActionEvent event) {
+        for (ProductTableData eachProduct: productsTableView.getItems())
+        {
+            eachProduct.setSelected(selectAllCheckBox.isSelected());
+        }
+    }
+
+
+    @FXML
+    private void deleteButtonOnClick(ActionEvent event) throws IOException, FileNotFoundException, ClassNotFoundException {
+        if (askYesNo("Are you sure you want to delete the selected products?"))
+        {
+            int i = 0;
+
+            while (i < productsTableView.getItems().size())
+            {
+                if (productsTableView.getItems().get(i).isSelected())
+                {
+                    productsTableView.getItems().get(i).delete();
+                    productsTableView.getItems().remove(i);
+                }
+                else
+                {
+                    i++;
+                }
+            }
+
+            selectAllCheckBox.setSelected(false);
+            productsTableView.refresh();
+        }
     }
     
 }

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package mainpkg;
+package tablemodels;
 
 import dbmodels.users.AbstractBaseUser;
 import dbmodels.users.SystemAdmin;
@@ -30,6 +30,11 @@ public class UserTableData implements DialogBoxTools {
     private Button changePasswordButton;
     private AbstractBaseUser userInstance;
 
+    public SimpleBooleanProperty selectedProperty()
+    {
+        return selected;
+    }
+    
     public boolean isSelected() {
         return selected.getValue();
     }
@@ -43,6 +48,7 @@ public class UserTableData implements DialogBoxTools {
     }
 
     public void setUsername(String username) {
+        this.userInstance.setUsername(username);
         this.username.setValue(username);
     }
 
@@ -60,6 +66,11 @@ public class UserTableData implements DialogBoxTools {
 
     public void setChangePasswordButton(Button changePasswordButton) {
         this.changePasswordButton = changePasswordButton;
+    }
+    
+    public AbstractBaseUser getUser()
+    {
+        return this.userInstance;
     }
     
     private void initializeFields()
@@ -125,5 +136,20 @@ public class UserTableData implements DialogBoxTools {
         }
         
         return allUserData;
+    }
+
+    @Override
+    public String toString() {
+        return "UserTableData{" + "selected=" + this.isSelected() + ", username=" + this.getUsername() + ", userType=" + this.getUserType() + '}';
+    }
+    
+    public void update() throws IOException, FileNotFoundException, ClassNotFoundException
+    {
+        this.userInstance.update();
+    }
+    
+    public void delete() throws IOException, FileNotFoundException, ClassNotFoundException
+    {
+        this.userInstance.delete();
     }
 }

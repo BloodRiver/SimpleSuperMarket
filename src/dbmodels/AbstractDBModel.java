@@ -21,6 +21,22 @@ import utilityclasses.AppendableObjectOutputStream;
  * @author Sajeed Ahmed Galib Arnob
  */
 public abstract class AbstractDBModel implements Serializable {
+    protected int id;
+    
+    public int getId()
+    {
+        return this.id;
+    }
+    
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+    
+    public AbstractDBModel() throws IOException, FileNotFoundException, ClassNotFoundException
+    {
+        this.id = this.count() + 1;
+    }
     
     protected static final ArrayList<AbstractDBModel> loadAllFromFile(String filename) throws FileNotFoundException, IOException, ClassNotFoundException
     {
@@ -149,11 +165,53 @@ public abstract class AbstractDBModel implements Serializable {
         fos.close();
     }
     
+    protected final int countFromFile(String filename) throws FileNotFoundException, IOException, ClassNotFoundException
+    {
+        File myFile = new File("databases");
+        
+        if (!myFile.exists())
+        {
+            return 0;
+        }
+        
+        myFile = new File("databases/" + filename);
+        
+        if (!myFile.exists())
+        {
+            return 0;
+        }
+        
+        FileInputStream fis = new FileInputStream("databases/" + filename);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        
+        int count = 0;
+        
+        try
+        {
+            while (true)
+            {
+                AbstractDBModel obj = (AbstractDBModel) ois.readObject();
+                count++;
+            }
+        }
+        catch (EOFException ex)
+        {
+            ois.close();
+            fis.close();
+            return count;
+        }
+    }
+    
     public abstract void save() throws IOException, FileNotFoundException;
     
     public abstract void delete() throws IOException, FileNotFoundException, ClassNotFoundException;
     
     public abstract void update() throws IOException, FileNotFoundException, ClassNotFoundException;
     
-    protected abstract boolean isEqual(Object otherObject);
+    public abstract int count() throws IOException, FileNotFoundException, ClassNotFoundException;
+    
+    public boolean isEqual(AbstractDBModel otherObject)
+    {
+        return this.id == otherObject.id;
+    }
 }

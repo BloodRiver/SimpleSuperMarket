@@ -13,12 +13,14 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import dbmodels.Product;
+import javafx.beans.property.SimpleBooleanProperty;
 
 /**
  *
  * @author Sajeed Ahmed Galib Arnob
  */
 public class ProductTableData {
+    private SimpleBooleanProperty selected;
     private SimpleStringProperty productName;
     private SimpleFloatProperty unitPrice;
     private SimpleFloatProperty preDefinedVatRate;
@@ -27,6 +29,8 @@ public class ProductTableData {
 
     public ProductTableData(Product productInstance) {
         this.productInstance = productInstance;
+        
+        this.selected = new SimpleBooleanProperty(this, "selected");
         
         this.productName = new SimpleStringProperty(this, "productName");
         this.productName.setValue(productInstance.getProductName());
@@ -56,6 +60,21 @@ public class ProductTableData {
         }
         
         return allProductTableData;
+    }
+    
+    public SimpleBooleanProperty selectedProperty()
+    {
+        return this.selected;
+    }
+    
+    public boolean isSelected()
+    {
+        return this.selected.getValue();
+    }
+    
+    public void setSelected(boolean selected)
+    {
+        this.selected.setValue(selected);
     }
 
     public String getProductName() {

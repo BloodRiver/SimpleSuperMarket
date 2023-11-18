@@ -4,6 +4,7 @@
  */
 package mainpkg;
 
+import tablemodels.UserTableData;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -24,6 +25,8 @@ import utilityclasses.SceneTools;
 import dbmodels.users.AbstractBaseUser;
 import dbmodels.users.Manager;
 import dbmodels.users.POSStaff;
+import dbmodels.users.SystemAdmin;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -82,6 +85,8 @@ public class SystemAdminCreateUserSceneController implements Initializable, Scen
         userTypeTableColumn.setCellFactory(cell -> {
             ComboBoxTableCell<UserTableData, String> myCell = new ComboBoxTableCell<>();
             
+            myCell.getItems().addAll(userTypeComboBox.getItems());
+            
             return myCell;
         });
         
@@ -105,7 +110,7 @@ public class SystemAdminCreateUserSceneController implements Initializable, Scen
     }    
 
     @FXML
-    private void createUserButtonOnClick(ActionEvent event) throws IOException {
+    private void createUserButtonOnClick(ActionEvent event) throws IOException, FileNotFoundException, ClassNotFoundException, ClassNotFoundException {
         String userType = userTypeComboBox.getSelectionModel().getSelectedItem();
         String username = usernameTextField.getText();
         String password = passwordPasswordField.getText();
@@ -135,7 +140,7 @@ public class SystemAdminCreateUserSceneController implements Initializable, Scen
         
         newUser.save();
         
-        UserTableData newUserData = new UserTableData(username, userType);
+        UserTableData newUserData = new UserTableData(newUser);
         
         userAccountsTableView.getItems().add(newUserData);
     }
@@ -147,18 +152,81 @@ public class SystemAdminCreateUserSceneController implements Initializable, Scen
 
     @FXML
     private void selectAllCheckBoxOnClick(ActionEvent event) {
+        for (UserTableData eachUser: userAccountsTableView.getItems())
+        {
+            eachUser.setSelected(selectAllCheckBox.isSelected());
+        }
     }
 
-    @FXML
-    private void userNameTableColumnOnEditCommit(TableColumn.CellEditEvent<UserTableData, String> event) {
-    }
-
-    @FXML
-    private void userTypeTableColumnOnEditCommit(TableColumn.CellEditEvent<UserTableData, String> event) {
-    }
 
     @Override
     public void initializeScene(HashMap<Object, Object> sceneData) {
+    }
+
+    @FXML
+    private void userNameTableColumnOnEditCommit(TableColumn.CellEditEvent<UserTableData, String> event) throws IOException, FileNotFoundException, ClassNotFoundException {
+        UserTableData currentRow = event.getRowValue();
+        String newUsername = event.getNewValue();
+        
+        if (newUsername == null)
+        {
+            showError("Please enter username");
+        }
+        else if (newUsername.length() < 5)
+        {
+            showError("Username must be at least 5 characteers long");
+        }
+        else
+        {
+            currentRow.setUsername(newUsername);
+            currentRow.update();
+        }
+        
+        userAccountsTableView.refresh();
+    }
+
+    @FXML
+    private void userTypeTableColumnOnEditCommit(TableColumn.CellEditEvent<UserTableData, String> event) throws IOException, ClassNotFoundException {
+        UserTableData currentRow = event.getRowValue();
+        String newUserType = event.getNewValue();
+        
+        if (askYesNo("Are you sure you want to change the user type?"))
+        {
+            try
+            {
+                SystemAdmin.changeUserAccountType(currentRow.getUser(), newUserType);
+            }
+            catch (FileNotFoundException ex)
+            {
+                System.out.println(ex.toString());
+                showError("Error changing user type. Database may be corrupted");
+            }
+        }
+    }
+
+    @FXML
+    private void deleteButtonOnClick(ActionEvent event) throws IOException, FileNotFoundException, ClassNotFoundException {
+        if (askYesNo("Are you sure you want to delete the selected users?"))
+        {
+            int i = 0;
+
+            while (i < userAccountsTableView.getItems().size())
+            {
+                if (userAccountsTableView.getItems().get(i).isSelected())
+                {
+                    System.out.println("Deleting: " + userAccountsTableView.getItems().get(i).getUsername());
+                    userAccountsTableView.getItems().get(i).delete();
+                    userAccountsTableView.getItems().remove(i);
+                }
+                else
+                {
+                    i++;
+                }
+            }
+
+            selectAllCheckBox.setSelected(false);
+            userAccountsTableView.refresh();
+        }
     }
     
 }

@@ -18,8 +18,14 @@ public class Product extends AbstractDBModel implements Serializable {
     private float unitPrice;
     private float preDefinedVatRate;
     private int numItemsInStock;
+    
+    public Product() throws IOException, FileNotFoundException, ClassNotFoundException
+    {
+        super();
+    }
 
-    public Product(String productName, float unitPrice, float preDefinedVatRate, int numItemsInStock) {
+    public Product(String productName, float unitPrice, float preDefinedVatRate, int numItemsInStock) throws IOException, FileNotFoundException, ClassNotFoundException {
+        super();
         this.productName = productName;
         this.unitPrice = unitPrice;
         this.preDefinedVatRate = preDefinedVatRate;
@@ -98,11 +104,9 @@ public class Product extends AbstractDBModel implements Serializable {
         this.numItemsInStock = numItemsInStock;
     }
     
-    @Override
-    protected boolean isEqual(Object otherObject)
+    public int count() throws IOException, FileNotFoundException, ClassNotFoundException
     {
-        Product otherProduct = (Product) otherObject;
-        return this.getProductName().equals(otherProduct.getProductName());
+        return this.countFromFile("Product.bin");
     }
     
 }

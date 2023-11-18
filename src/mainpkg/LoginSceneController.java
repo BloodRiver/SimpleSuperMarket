@@ -51,14 +51,15 @@ public class LoginSceneController implements Initializable, SceneTools, DialogBo
         {
             user = new SystemAdmin();
         }
-        else if ((user = AbstractBaseUser.loadUserByName(usernameTextField.getText())) != null)
-        {
-            // do nothing            
-        }
         else
         {
-            showError("That user does not exist");
-            return;
+            user = AbstractBaseUser.loadUserByName(usernameTextField.getText());
+            
+            if (user == null)
+            {
+                showError("That user does not exist");
+                return;
+            }
         }
         
         if (MainApplication.logIn(user, passwordPasswordField.getText()))

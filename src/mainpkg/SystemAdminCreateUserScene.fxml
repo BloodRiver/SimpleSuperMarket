@@ -11,8 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="749.0" prefWidth="958.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="mainpkg.SystemAdminCreateUserSceneController">
+<AnchorPane id="AnchorPane" prefHeight="749.0" prefWidth="958.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainpkg.SystemAdminCreateUserSceneController">
    <children>
       <Label layoutX="368.0" layoutY="29.0" text="All Users" textAlignment="CENTER">
          <font>
@@ -43,5 +42,6 @@
             <TableColumn fx:id="controlTableColumn" prefWidth="213.0" text="Control" />
         </columns>
       </TableView>
+      <Button layoutX="58.0" layoutY="691.0" mnemonicParsing="false" onAction="#deleteButtonOnClick" text="Delete Selected Users" />
    </children>
 </AnchorPane>

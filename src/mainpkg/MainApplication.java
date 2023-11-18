@@ -39,8 +39,6 @@ public class MainApplication extends Application {
     
     public static boolean logIn(AbstractBaseUser user, String password)
     {
-        System.out.println(user);
-        System.out.println("given password: " + password);
         if (user.checkPassword(password))
         {
             loggedInUser = user;
