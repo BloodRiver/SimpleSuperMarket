@@ -101,6 +101,9 @@ public class CartItem {
     public void setQuantity(int quantity)
     {
         this.quantity.setValue(quantity);
+        this.totalPrice.setValue(this.calculateTotalPrice());
+        this.vatAmount.setValue(this.calculateVatAmount());
+        this.totalPriceWithVat.setValue(this.calculateTotalPriceWithVat());
     }
     
     public float getUnitPrice()

@@ -249,17 +249,24 @@ public class CheckoutSceneController implements Initializable, SceneTools, Dialo
         if (event.getNewValue() > currentRow.getProductInstance().getNumItemsInStock())
         {
             showError("Quantity exceeds number of items in stock");
-            cartItemTable.refresh();
         }
         else if (event.getNewValue() < 1)
         {
             cartItemTable.getItems().remove(currentRow);
-            cartItemTable.refresh();
         }
         else
         {
             currentRow.setQuantity(event.getNewValue());
         }
+        cartItemTable.refresh();
+        
+        float total = 0;
+        for (CartItem eachItem: cartItemTable.getItems())
+        {
+            total += eachItem.getTotalPriceWithVat();
+        }
+        
+        totalAmountOutputLabel.setText("Total Amount with Vat of all products: " + total);
     }
 
     @FXML
@@ -290,6 +297,13 @@ public class CheckoutSceneController implements Initializable, SceneTools, Dialo
 
             selectAllCheckBox.setSelected(false);
             cartItemTable.refresh();
+            float total = 0;
+            for (CartItem eachItem: cartItemTable.getItems())
+            {
+                total += eachItem.getTotalPriceWithVat();
+            }
+
+            totalAmountOutputLabel.setText("Total Amount with Vat of all products: " + total);
         }
     }
 

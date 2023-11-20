@@ -3,21 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/sajee/Documents/WorkingDirectory/SimpleSuperMarket/src/dbmodels/users/SystemAdmin.java</file>
-            <file>file:/C:/Users/sajee/Documents/WorkingDirectory/SimpleSuperMarket/src/dbmodels/users/Manager.java</file>
-            <file>file:/C:/Users/sajee/Documents/WorkingDirectory/SimpleSuperMarket/src/dbmodels/users/AbstractBaseUser.java</file>
-            <file>file:/C:/Users/sajee/Documents/WorkingDirectory/SimpleSuperMarket/src/tablemodels/UserTableData.java</file>
-            <file>file:/C:/Users/sajee/Documents/WorkingDirectory/SimpleSuperMarket/src/dbmodels/Product.java</file>
-            <file>file:/C:/Users/sajee/Documents/WorkingDirectory/SimpleSuperMarket/src/mainpkg/MainSceneController.java</file>
-            <file>file:/C:/Users/sajee/Documents/WorkingDirectory/SimpleSuperMarket/src/mainpkg/LoginSceneController.java</file>
-            <file>file:/C:/Users/sajee/Documents/WorkingDirectory/SimpleSuperMarket/src/dbmodels/AbstractDBModel.java</file>
-            <file>file:/C:/Users/sajee/Documents/WorkingDirectory/SimpleSuperMarket/src/dbmodels/users/POSStaff.java</file>
-            <file>file:/C:/Users/sajee/Documents/WorkingDirectory/SimpleSuperMarket/src/utilityclasses/DialogBoxTools.java</file>
             <file>file:/C:/Users/sajee/Documents/WorkingDirectory/SimpleSuperMarket/src/mainpkg/CheckoutSceneController.java</file>
-            <file>file:/C:/Users/sajee/Documents/WorkingDirectory/SimpleSuperMarket/src/utilityclasses/SceneTools.java</file>
-            <file>file:/C:/Users/sajee/Documents/WorkingDirectory/SimpleSuperMarket/src/mainpkg/MainApplication.java</file>
-            <file>file:/C:/Users/sajee/Documents/WorkingDirectory/SimpleSuperMarket/src/tablemodels/ProductTableData.java</file>
-            <file>file:/C:/Users/sajee/Documents/WorkingDirectory/SimpleSuperMarket/src/mainpkg/SystemAdminCreateUserSceneController.java</file>
+            <file>file:/C:/Users/sajee/Documents/WorkingDirectory/SimpleSuperMarket/src/tablemodels/CartItem.java</file>
         </group>
     </open-files>
 </project-private>

@@ -122,9 +122,11 @@ public class MainSceneController implements Initializable, SceneTools, DialogBox
         }
         else
         {
-            Alert msgbox = new Alert(AlertType.ERROR);
-            msgbox.setContentText("Product Name must be at least 5 characters long");
-            msgbox.showAndWait();
+//            Alert msgbox = new Alert(AlertType.ERROR);
+//            msgbox.setContentText("Product Name must be at least 5 characters long");
+//            msgbox.showAndWait();
+            
+            showError("Product Name must be at least 5 characters long");
             productsTableView.refresh();
         }
     }
