@@ -1,1 +1,1 @@
-# Simple Super Market Program Using Java
+# Java FXML implementation of Simple Super Market Program
